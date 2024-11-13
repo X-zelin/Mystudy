@@ -1,5 +1,6 @@
 package com.xv.DataStruction.Duilie;
 import java.util.Iterator;
+import java.util.LinkedList;
 public class ArrayDeque<E> implements Deque<E>,Iterable<E> {
     static int inv(int i,int length){
         if(i+1 >= length){
@@ -7,6 +8,7 @@ public class ArrayDeque<E> implements Deque<E>,Iterable<E> {
         }
         return i+1;
     }
+    
     static int dev(int i,int length){
         if(i-1<0){
             return length-1;

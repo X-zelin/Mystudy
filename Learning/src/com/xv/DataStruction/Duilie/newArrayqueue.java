@@ -1,19 +1,22 @@
 package com.xv.DataStruction.Duilie;
+
 import java.util.Iterator;
-public class Arrayqueue<E> implements Queue<E>,Iterable<E>{
+public class newArrayqueue<E> implements Queue<E>,Iterable<E>{
     private E[] array;
     private int head = 0;
     private int tail = 0;
-    public Arrayqueue(int capacity){
-        array = (E[])new Object[capacity+1];
+    private int size = 0;
+    public newArrayqueue(int capacity){
+        array = (E[])new Object[capacity];
     }
     @Override
     public boolean offer(E value) {
         if(isfull()){
             return false;
         }
-        array[tail] = value;
-        tail = (tail+1)%array.length;
+        array[tail&(array.length-1)] = value;
+        tail++;
+        size++;
         return true;
 
     }
@@ -23,8 +26,9 @@ public class Arrayqueue<E> implements Queue<E>,Iterable<E>{
         if(isEmpty()){
             return null;
         }
-        E value = array[head];
-        head = (head+1)%array.length;
+        E value = array[head%array.length];
+        head++;
+        size--;
         return value;
     }
 
@@ -38,23 +42,24 @@ public class Arrayqueue<E> implements Queue<E>,Iterable<E>{
         if(isEmpty()){
             return null;
         }
-        return array[head];
+        return array[head%array.length];
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return head == tail;
     }
     public boolean isfull(){
-        return (tail+1)%array.length == head;
+        return tail-head==array.length;
     }
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>(){
             int p = head;
+            int count = 0;
             public boolean hasNext(){
-                return p!=tail;
+                return count<size;
             }
             public E next(){
                 E value = array[p];
@@ -62,5 +67,11 @@ public class Arrayqueue<E> implements Queue<E>,Iterable<E>{
                 return array[p];
             }
         };
+    }
+    public static void main(String[] args) {
+        int head = 2147483647;
+        for(int i = 0;i<2;i++){
+            System.out.println(Integer.toUnsignedLong(head+i));
+        }
     }
 }
